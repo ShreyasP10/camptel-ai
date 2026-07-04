@@ -195,7 +195,10 @@ Typing Indicator: when awaiting response, show animated three‑dot “thinking�
 Empty State (first load)
 Instead of messages, show a friendly prompt: “👋 Hi Dean! I can help you identify at‑risk students, check placement readiness, or find classroom conflicts. Try asking a question above.”
 
+
 Followed by 3–4 suggestion chips (clickable): “Show CS students with high risk”, “Who is placement‑ready in Electronics?”, etc. Clicking fills input and triggers send.
+
+
 
 # 6. Page 3: Performance (/performance)
 Layout
