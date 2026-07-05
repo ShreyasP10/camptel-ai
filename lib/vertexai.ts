@@ -1,5 +1,22 @@
-import { VertexAI } from "@google-cloud/vertexai";
+import { GoogleGenAI } from "@google/genai";
 
-export function getVertexAIClient(): VertexAI {
-  return new VertexAI({ project: process.env.GCP_PROJECT_ID, location: "us-central1" });
+let client: GoogleGenAI | null = null;
+
+function getClient(): GoogleGenAI {
+  if (client) return client;
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error("GEMINI_API_KEY is not set in environment variables");
+  }
+  client = new GoogleGenAI({ apiKey });
+  return client;
+}
+
+export async function generateWithGemini(prompt: string): Promise<string> {
+  const ai = getClient();
+  const response = await ai.models.generateContent({
+    model: "gemini-2.5-flash",
+    contents: prompt,
+  });
+  return response.text ?? "";
 }
