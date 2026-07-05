@@ -12,7 +12,7 @@ export default function Spinner({ size = "md" }: SpinnerProps) {
   return (
     <div className="flex items-center justify-center py-4">
       <div
-        className={`${sizes[size]} animate-spin rounded-full border-surface-200 border-t-brand-600`}
+        className={`${sizes[size]} animate-spin rounded-full border-surface-200 border-t-brand-600 dark:border-dark-200 dark:border-t-brand-400`}
       />
     </div>
   );

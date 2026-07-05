@@ -4,11 +4,20 @@
 
 @layer base {
   body {
-    @apply bg-surface-50 text-surface-900 antialiased;
+    @apply bg-surface-50 text-surface-900 antialiased transition-colors duration-300;
+  }
+
+  .dark body,
+  body.dark {
+    @apply bg-dark-50 text-dark-800;
   }
 
   ::selection {
     @apply bg-brand-200 text-brand-900;
+  }
+
+  .dark ::selection {
+    @apply bg-brand-800 text-brand-100;
   }
 
   :focus-visible {
@@ -20,6 +29,10 @@
   .scrollbar-thin {
     scrollbar-width: thin;
     scrollbar-color: #cbd5e1 transparent;
+  }
+
+  .dark .scrollbar-thin {
+    scrollbar-color: #2a3d5c transparent;
   }
 
   .scrollbar-thin::-webkit-scrollbar {
@@ -35,6 +48,10 @@
     background-color: #cbd5e1;
     border-radius: 9999px;
   }
+
+  .dark .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: #2a3d5c;
+  }
 }
 
 @layer utilities {
@@ -42,6 +59,11 @@
     background-image: linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
       linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
     background-size: 48px 48px;
+  }
+
+  .dark .bg-grid {
+    background-image: linear-gradient(rgba(148, 163, 184, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 163, 184, 0.04) 1px, transparent 1px);
   }
 
   .text-balance {

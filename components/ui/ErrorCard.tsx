@@ -6,13 +6,13 @@ interface ErrorCardProps {
 
 export default function ErrorCard({ title, description, onRetry }: ErrorCardProps) {
   return (
-    <div className="rounded-2xl border border-red-200 bg-red-50 p-8 text-center">
-      <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-red-100 text-xl">
+    <div className="rounded-2xl border border-red-200 bg-red-50 p-8 text-center dark:border-red-800 dark:bg-red-950/50 transition-colors duration-300">
+      <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-red-100 text-xl dark:bg-red-900/50">
         ⚠️
       </div>
-      <p className="text-base font-semibold text-red-700">{title}</p>
+      <p className="text-base font-semibold text-red-700 dark:text-red-400">{title}</p>
       {description && (
-        <p className="mt-2 text-sm text-red-500">{description}</p>
+        <p className="mt-2 text-sm text-red-500 dark:text-red-400/80">{description}</p>
       )}
       {onRetry && (
         <button
