@@ -43,6 +43,7 @@ export default function ChatInterface() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question: trimmed }),
       });
+      if (!res.ok) throw new Error("API error");
       const data = await res.json();
 
       const assistantMsg: Message = {
@@ -70,29 +71,29 @@ export default function ChatInterface() {
         <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 text-2xl shadow-lg shadow-brand-600/20">
           ✦
         </div>
-        <h1 className="text-3xl font-bold tracking-tight text-surface-900">Ask CampusPulse AI</h1>
-        <p className="mt-2 text-surface-500">
+        <h1 className="text-3xl font-bold tracking-tight text-surface-900 dark:text-dark-800 transition-colors">Ask CampusPulse AI</h1>
+        <p className="mt-2 text-surface-500 dark:text-dark-500 transition-colors">
           Ask questions about student performance, placements, or resources in plain English.
         </p>
       </div>
 
       <Card className="overflow-hidden p-0 shadow-lg">
-        <div className="flex h-[520px] flex-col bg-surface-50">
+        <div className="flex h-[520px] flex-col bg-surface-50 dark:bg-dark-50 transition-colors duration-300">
           <div className="flex-1 space-y-4 overflow-y-auto p-4 scrollbar-thin sm:p-6">
             {!messages.length && !loading && (
-              <div className="mx-auto flex max-w-2xl flex-col items-center justify-center rounded-2xl border border-dashed border-surface-300 bg-white p-10 text-center shadow-sm">
+              <div className="mx-auto flex max-w-2xl flex-col items-center justify-center rounded-2xl border border-dashed border-surface-300 bg-white p-10 text-center shadow-sm dark:border-dark-200 dark:bg-dark-100 transition-colors duration-300">
                 <div className="mb-4 text-4xl">👋</div>
-                <p className="text-lg font-semibold text-surface-800">
+                <p className="text-lg font-semibold text-surface-800 dark:text-dark-800">
                   Hi Dean! I can help you identify at-risk students, check placement readiness, or find classroom conflicts.
                 </p>
-                <p className="mt-2 text-sm text-surface-400">Try asking a question below or pick a suggestion.</p>
+                <p className="mt-2 text-sm text-surface-400 dark:text-dark-500">Try asking a question below or pick a suggestion.</p>
                 <div className="mt-6 flex flex-wrap justify-center gap-2">
                   {starterSuggestions.map((suggestion) => (
                     <button
                       key={suggestion}
                       type="button"
                       onClick={() => sendMessage(suggestion)}
-                      className="rounded-xl border border-surface-200 bg-white px-4 py-2.5 text-sm font-medium text-surface-600 shadow-sm transition hover:border-brand-200 hover:text-brand-600"
+                      className="rounded-xl border border-surface-200 bg-white px-4 py-2.5 text-sm font-medium text-surface-600 shadow-sm transition hover:border-brand-200 hover:text-brand-600 dark:border-dark-200 dark:bg-dark-100 dark:text-dark-500 dark:hover:border-brand-700 dark:hover:text-brand-400"
                     >
                       {suggestion}
                     </button>
@@ -107,27 +108,27 @@ export default function ChatInterface() {
                   className={`max-w-[75%] rounded-2xl px-5 py-3.5 text-sm shadow-sm ${
                     msg.role === "user"
                       ? "bg-gradient-to-br from-brand-600 to-brand-700 text-white"
-                      : "border border-surface-200 bg-white text-surface-700"
+                      : "border border-surface-200 bg-white text-surface-700 dark:border-dark-200 dark:bg-dark-100 dark:text-dark-700"
                   }`}
                 >
                   <p>{msg.content}</p>
                   {msg.sql && (
-                    <details className="mt-3 rounded-xl bg-surface-900 p-3 text-xs text-emerald-400">
-                      <summary className="cursor-pointer font-semibold text-surface-300 hover:text-white">
+                    <details className="mt-3 rounded-xl bg-surface-900 p-3 text-xs text-emerald-400 dark:bg-dark-900">
+                      <summary className="cursor-pointer font-semibold text-surface-300 hover:text-white dark:text-dark-600 dark:hover:text-dark-800">
                         Show SQL
                       </summary>
                       <pre className="mt-2 overflow-x-auto whitespace-pre-wrap font-mono">{msg.sql}</pre>
                     </details>
                   )}
                   {msg.rows && msg.rows.length > 0 && (
-                    <details className="mt-2 rounded-xl border border-surface-200 bg-surface-50 p-3">
-                      <summary className="cursor-pointer text-xs font-semibold text-surface-500 hover:text-surface-700">
+                    <details className="mt-2 rounded-xl border border-surface-200 bg-surface-50 p-3 dark:border-dark-200 dark:bg-dark-50">
+                      <summary className="cursor-pointer text-xs font-semibold text-surface-500 hover:text-surface-700 dark:text-dark-500 dark:hover:text-dark-700">
                         Show data ({msg.rows.length} rows)
                       </summary>
                       <div className="mt-2 overflow-x-auto">
                         <table className="min-w-full text-left text-xs">
                           <thead>
-                            <tr className="text-surface-400">
+                            <tr className="text-surface-400 dark:text-dark-500">
                               {Object.keys(msg.rows[0]).map((key) => (
                                 <th key={key} className="pb-1 pr-3 font-semibold capitalize">{key.replace(/_/g, " ")}</th>
                               ))}
@@ -135,7 +136,7 @@ export default function ChatInterface() {
                           </thead>
                           <tbody>
                             {msg.rows.slice(0, 5).map((row, i) => (
-                              <tr key={i} className="text-surface-600">
+                              <tr key={i} className="text-surface-600 dark:text-dark-600">
                                 {Object.values(row).map((val, j) => (
                                   <td key={j} className="py-1 pr-3">{String(val ?? "—")}</td>
                                 ))}
@@ -152,11 +153,11 @@ export default function ChatInterface() {
 
             {loading && (
               <div className="flex justify-start animate-fade-in">
-                <div className="max-w-[75%] rounded-2xl border border-surface-200 bg-white px-5 py-4 text-sm shadow-sm">
+                <div className="max-w-[75%] rounded-2xl border border-surface-200 bg-white px-5 py-4 text-sm shadow-sm dark:border-dark-200 dark:bg-dark-100">
                   <div className="flex gap-1.5">
-                    <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-surface-300" />
-                    <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-surface-300 [animation-delay:120ms]" />
-                    <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-surface-300 [animation-delay:240ms]" />
+                    <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-surface-300 dark:bg-dark-300" />
+                    <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-surface-300 dark:bg-dark-300 [animation-delay:120ms]" />
+                    <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-surface-300 dark:bg-dark-300 [animation-delay:240ms]" />
                   </div>
                 </div>
               </div>
@@ -164,8 +165,8 @@ export default function ChatInterface() {
             <div ref={endRef} />
           </div>
 
-          <div className="border-t border-surface-200 bg-white p-4">
-            <div className="flex items-center gap-2 rounded-xl border border-surface-200 bg-surface-50 px-4 py-1.5 transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-100">
+          <div className="border-t border-surface-200 bg-white p-4 dark:border-dark-200 dark:bg-dark-100 transition-colors duration-300">
+            <div className="flex items-center gap-2 rounded-xl border border-surface-200 bg-surface-50 px-4 py-1.5 transition focus-within:border-brand-400 focus-within:ring-2 focus-within:ring-brand-100 dark:border-dark-200 dark:bg-dark-50 dark:focus-within:border-brand-600 dark:focus-within:ring-brand-900">
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -173,7 +174,7 @@ export default function ChatInterface() {
                   if (e.key === "Enter") sendMessage(input);
                 }}
                 placeholder="e.g., Which CS students have attendance below 60%?"
-                className="flex-1 bg-transparent px-2 py-3 text-sm outline-none placeholder:text-surface-400"
+                className="flex-1 bg-transparent px-2 py-3 text-sm outline-none placeholder:text-surface-400 dark:placeholder:text-dark-500 text-surface-900 dark:text-dark-800"
               />
               <button
                 type="button"

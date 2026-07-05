@@ -16,7 +16,7 @@ export default function DashboardTabs() {
 
   return (
     <section className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-8 sm:px-6 lg:px-8 lg:py-10">
-      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-brand-600 via-brand-700 to-indigo-900 p-8 text-white shadow-2xl shadow-brand-600/25 sm:p-10 lg:p-12">
+      <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-brand-600 via-brand-700 to-indigo-900 p-8 text-white shadow-2xl shadow-brand-600/25 sm:p-10 lg:p-12 dark:from-brand-800 dark:via-brand-900 dark:to-indigo-950">
         <div className="absolute inset-0 bg-grid opacity-20" />
         <div className="relative">
           <p className="text-sm font-semibold uppercase tracking-[0.3em] text-brand-200">
@@ -41,7 +41,7 @@ export default function DashboardTabs() {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-surface-200 bg-white p-2 shadow-sm">
+      <div className="rounded-2xl border border-surface-200 bg-white p-2 shadow-sm dark:border-dark-200 dark:bg-dark-100 transition-colors duration-300">
         <div className="flex gap-1 overflow-x-auto pb-1">
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
@@ -53,7 +53,7 @@ export default function DashboardTabs() {
                 className={`flex items-center gap-2 whitespace-nowrap rounded-xl px-4 py-2.5 text-sm font-semibold transition-all duration-200 ${
                   isActive
                     ? "bg-brand-600 text-white shadow-md shadow-brand-600/20"
-                    : "text-surface-500 hover:bg-surface-100 hover:text-surface-700"
+                    : "text-surface-500 hover:bg-surface-100 hover:text-surface-700 dark:text-dark-500 dark:hover:bg-dark-50 dark:hover:text-dark-700"
                 }`}
               >
                 <span className="text-base">{tab.icon}</span>
