@@ -9,26 +9,27 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google-cloud/bigquery": "^7.8.0",
+    "@google-cloud/vertexai": "^1.5.0",
+    "@google/genai": "^2.10.0",
+    "date-fns": "^3.6.0",
     "next": "^14.2.0",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
-    "@google-cloud/bigquery": "^7.8.0",
-    "@google-cloud/vertexai": "^1.5.0",
-    "recharts": "^2.12.0",
     "react-hook-form": "^7.51.0",
-    "uuid": "^9.0.1",
-    "date-fns": "^3.6.0"
+    "recharts": "^2.12.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/node": "^20.12.0",
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0",
     "@types/uuid": "^9.0.8",
-    "typescript": "^5.4.0",
-    "tailwindcss": "^3.4.0",
-    "postcss": "^8.4.38",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
-    "eslint-config-next": "^14.2.0"
+    "eslint-config-next": "^14.2.0",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.4.0"
   }
 }

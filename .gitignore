@@ -3,3 +3,13 @@ node_modules/
 .env.local
 .env*.local
 out/
+# Service account keys
+keys/
+*.json
+
+# Keep only if you have other JSON files you want to track:
+!package.json
+!package-lock.json
+!tsconfig.json
+!data/challenges.json
+!data/benchmark.json

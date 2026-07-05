@@ -1,0 +1,57 @@
+[
+  {
+    "id": "at-risk-top",
+    "category": "academic",
+    "title": "Top At-Risk Students",
+    "description": "List the 10 students with the highest risk scores across all courses.",
+    "question": "Show the top 10 students by risk_score, with their name, course, attendance_pct, avg_marks.",
+    "followUp": [
+      "What common factors do these students share?",
+      "Suggest intervention for the top 3."
+    ]
+  },
+  {
+    "id": "overbooked-classrooms",
+    "category": "infrastructure",
+    "title": "Overbooked Classrooms",
+    "description": "Find rooms where utilization > 90% this week.",
+    "question": "List rooms, dates, and time slots where utilization_pct > 90 for the next 7 days.",
+    "followUp": [
+      "Which rooms could be used as alternatives?",
+      "Send alert to admin?"
+    ]
+  },
+  {
+    "id": "placement-gap",
+    "category": "placement",
+    "title": "Placement Skill Gaps",
+    "description": "Identify placement-ready students with low communication scores.",
+    "question": "List students from all branches with readiness_index > 70 but communication_score < 50, show their name, branch, and scores.",
+    "followUp": [
+      "Recommend a communication workshop for these students.",
+      "Show trend of communication scores over semesters."
+    ]
+  },
+  {
+    "id": "low-attendance-cs",
+    "category": "academic",
+    "title": "Low Attendance in CS",
+    "description": "Find CS students with attendance below 60%.",
+    "question": "List CS students with attendance_pct < 60, show name, semester, attendance_pct, and risk_score.",
+    "followUp": [
+      "Why might attendance be dropping?",
+      "Which courses are most affected?"
+    ]
+  },
+  {
+    "id": "placement-readiness",
+    "category": "placement",
+    "title": "Placement Readiness Summary",
+    "description": "Get a summary of placement readiness across branches.",
+    "question": "For each branch, show the number of students and average readiness_index.",
+    "followUp": [
+      "Which branch needs the most improvement?",
+      "Compare this year with last year."
+    ]
+  }
+]
