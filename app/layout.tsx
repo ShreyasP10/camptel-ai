@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import ThemeProvider from "../components/ThemeProvider";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -36,6 +37,7 @@ export default function RootLayout({
           <div className="flex min-h-screen flex-col">
             <Navbar />
             <div className="flex-1">{children}</div>
+            <Analytics />
             <footer className="border-t border-surface-200 bg-white/80 py-4 text-center text-sm text-surface-500 dark:border-dark-200 dark:bg-dark-100/80 dark:text-dark-500 transition-colors duration-300">
               Camptel AI • Campus decision intelligence
             </footer>
