@@ -13,24 +13,48 @@ import {
 import Card from "../../components/ui/Card";
 import Spinner from "../../components/ui/Spinner";
 
-const benchmarkChart = [
-  { name: "Pandas", time: 45.2 },
-  { name: "cuDF", time: 4.1 },
-];
+interface Benchmark {
+  task: string;
+  pandas_time_sec: number;
+  cudf_time_sec: number;
+  speedup: number;
+  dataset_size: string;
+}
 
 export default function PerformancePage() {
   const [loading, setLoading] = useState(true);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [benchmark, setBenchmark] = useState<Benchmark | null>(null);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => {
-      setLoading(false);
-      setShowConfetti(true);
-    }, 700);
-    return () => window.clearTimeout(timer);
+    fetch("/api/acceleration")
+      .then((r) => r.json())
+      .then((data) => {
+        setBenchmark(data);
+        setLoading(false);
+        setShowConfetti(true);
+      })
+      .catch(() => {
+        setLoading(false);
+        setShowConfetti(true);
+      });
   }, []);
 
-  const speedup = useMemo(() => (45.2 / 4.1).toFixed(1), []);
+  const speedup = useMemo(
+    () => (benchmark ? benchmark.speedup.toFixed(1) : "—"),
+    [benchmark]
+  );
+
+  const chartData = useMemo(
+    () =>
+      benchmark
+        ? [
+            { name: "Pandas", time: benchmark.pandas_time_sec },
+            { name: "cuDF", time: benchmark.cudf_time_sec },
+          ]
+        : [],
+    [benchmark]
+  );
 
   return (
     <main className="mx-auto flex max-w-5xl flex-col gap-8 px-4 py-10 sm:px-6 lg:px-8">
@@ -70,7 +94,7 @@ export default function PerformancePage() {
           Dataset
         </p>
         <p className="mt-3 text-lg font-medium text-surface-700 dark:text-dark-700">
-          1.2 million attendance records from 50,000 students over 1 year.
+          {benchmark?.dataset_size ?? "1.2 million attendance records from 50,000 students over 1 year."}
         </p>
       </Card>
 
@@ -83,13 +107,13 @@ export default function PerformancePage() {
           <div className="grid gap-6 md:grid-cols-2 md:items-stretch">
             <Card title="Pandas (CPU)" className="border-surface-200 bg-surface-100 dark:border-dark-200 dark:bg-dark-50">
               <div className="flex flex-col items-center py-4">
-                <p className="text-5xl font-bold text-surface-900 dark:text-dark-800">45.2s</p>
+                <p className="text-5xl font-bold text-surface-900 dark:text-dark-800">{benchmark?.pandas_time_sec ?? "—"}s</p>
                 <p className="mt-2 text-sm text-surface-400 dark:text-dark-500">on 8-core CPU</p>
               </div>
             </Card>
             <Card title="cuDF (GPU)" className="border-emerald-200 bg-gradient-to-br from-emerald-50 to-green-50 dark:border-emerald-800 dark:from-emerald-950/30 dark:to-dark-50">
               <div className="flex flex-col items-center py-4">
-                <p className="text-5xl font-bold text-emerald-600 dark:text-emerald-400">4.1s</p>
+                <p className="text-5xl font-bold text-emerald-600 dark:text-emerald-400">{benchmark?.cudf_time_sec ?? "—"}s</p>
                 <p className="mt-2 text-sm text-surface-400 dark:text-dark-500">on NVIDIA T4 GPU</p>
               </div>
             </Card>
@@ -105,7 +129,7 @@ export default function PerformancePage() {
           <Card title="Benchmark comparison" subtitle="Pandas vs cuDF execution time">
             <div className="h-72">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={benchmarkChart}>
+                <BarChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
                   <XAxis dataKey="name" tickLine={false} axisLine={false} tick={{ fill: "#94a3b8", fontSize: 12 }} />
                   <YAxis tickLine={false} axisLine={false} tick={{ fill: "#94a3b8", fontSize: 12 }} />
@@ -133,7 +157,7 @@ export default function PerformancePage() {
                 "Raw CSV data is loaded into memory.",
                 "Pandas applies group-by on CPU, which is relatively slow.",
                 "With import cudf.pandas, the same workflow runs on GPU with massive parallelism.",
-                "Result: 11x faster feature engineering for risk scores.",
+                `Result: ${speedup}x faster feature engineering for risk scores.`,
               ].map((step, i) => (
                 <li key={i} className="flex items-start gap-3">
                   <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-100 text-xs font-bold text-brand-700 dark:bg-brand-900/40 dark:text-brand-400">
