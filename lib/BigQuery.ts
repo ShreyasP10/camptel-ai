@@ -1,13 +1,22 @@
 import { BigQuery } from "@google-cloud/bigquery";
 
 function getCredentials() {
-  const key = process.env.GCP_SERVICE_ACCOUNT_KEY;
-  if (!key) return undefined;
+  const raw = process.env.GCP_SERVICE_ACCOUNT_KEY;
+  if (!raw) return undefined;
+
   try {
-    return JSON.parse(key);
-  } catch {
-    return undefined;
-  }
+    return JSON.parse(raw);
+  } catch {}
+
+  try {
+    return JSON.parse(raw.trim().replace(/^['"]+/, "").replace(/['"]+$/, ""));
+  } catch {}
+
+  try {
+    return JSON.parse(Buffer.from(raw, "base64").toString("utf-8"));
+  } catch {}
+
+  return undefined;
 }
 
 let client: BigQuery | null = null;
@@ -21,7 +30,9 @@ export function getBigQueryClient(): BigQuery {
   if (projectId && credentials) {
     client = new BigQuery({ projectId, credentials });
   } else {
-    client = new BigQuery();
+    throw new Error(
+      "BigQuery is not configured. Set GCP_PROJECT_ID and GCP_SERVICE_ACCOUNT_KEY env vars."
+    );
   }
 
   return client;

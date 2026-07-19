@@ -49,6 +49,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ utilization: grouped, date });
   } catch (error) {
     console.error("classroom API error:", error);
-    return NextResponse.json({ error: "Failed to query classroom data" }, { status: 500 });
+    const msg = error instanceof Error ? error.message : String(error);
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }

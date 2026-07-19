@@ -26,6 +26,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ readiness: rows });
   } catch (error) {
     console.error("placement API error:", error);
-    return NextResponse.json({ error: "Failed to query placement data" }, { status: 500 });
+    const msg = error instanceof Error ? error.message : String(error);
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }

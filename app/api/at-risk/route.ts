@@ -26,6 +26,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ students: rows });
   } catch (error) {
     console.error("at-risk API error:", error);
-    return NextResponse.json({ error: "Failed to query at-risk data" }, { status: 500 });
+    const msg = error instanceof Error ? error.message : String(error);
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }
